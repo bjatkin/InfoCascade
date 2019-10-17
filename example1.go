@@ -6,9 +6,8 @@ import (
 )
 
 func example1(days, households int) {
-	truth := 0.95
-	faith := 0.95
-	waterGive := 0.95
+	truth := 0.1
+	faith := 0.1
 	var allData stats
 	for d := 0; d < days; d++ {
 		var dayData stats
@@ -21,30 +20,26 @@ func example1(days, households int) {
 
 			if rand.Float64() > truth {
 				signal = not(correct)
+				// fmt.Printf("Lied!\n")
 			}
 
 			choice := h.informedChoice(signal)
 			result := stat{
 				correctChoice: false,
 				gotWater:      false,
-				liedTo:        signal == correct,
+				liedTo:        signal != correct,
 				choice:        choice,
 			}
 			if choice == correct {
 				result.correctChoice = true
-				if rand.Float64() < waterGive {
-					result.gotWater = true
-				}
-			}
-			if signal == correct {
-				result.liedTo = false
+				result.gotWater = true
 			}
 
 			dayData.data = append(dayData.data, result)
 			allData.data = append(allData.data, result)
 		}
 		fmt.Printf("day %d\nCorrect: %.2f%%, Lies %.2f%%, Correct from Lies %.2f%%, Got Water %.2f%%\n",
-			d, dayData.Correct(), dayData.Lies(), dayData.CorrectFromLies(), dayData.GotWater())
+			d+1, dayData.Correct(), dayData.Lies(), dayData.CorrectFromLies(), dayData.GotWater())
 		dayData = stats{}
 	}
 	fmt.Printf("All Data:\nCorrect: %.2f%%, Lies %.2f%%, Correct from Lies %.2f%%, Got Water %.2f%%\n",

@@ -6,7 +6,7 @@ import (
 )
 
 func example2(days, households int) {
-	getWater := 0.9
+	truthPercent := 0.9
 	var allData stats
 	for d := 0; d < days; d++ {
 		observations := []int{}
@@ -14,7 +14,7 @@ func example2(days, households int) {
 		var dayData stats
 		for h := 0; h < households; h++ {
 			house := houseHold{
-				getWater: getWater,
+				truthPercent: truthPercent,
 			}
 			choice := house.observerAndChoose(observations)
 			observations = append(observations, choice)
@@ -25,22 +25,19 @@ func example2(days, households int) {
 			}
 			if choice == correct {
 				s.correctChoice = true
-				if rand.Float64() < getWater {
-					s.gotWater = true
-				}
+				s.gotWater = true
 			}
 			dayData.data = append(dayData.data, s)
 			allData.data = append(allData.data, s)
 		}
 		fmt.Printf("day %d\nCorrect: %.2f%%, First Choices [%s], Got Water %.2f%%\n",
-			d, dayData.Correct(), dayData.Choices()[:27], dayData.GotWater())
+			d+1, dayData.Correct(), dayData.Choices()[:27], dayData.GotWater())
 	}
 	fmt.Printf("All Data:\nCorrect: %.2f%%, Got Water %.2f%%\n",
 		allData.Correct(), allData.GotWater())
 }
 
 func example2B(days, households int) {
-	getWater := 0.9
 	truth := 0.9
 	faith := 0.95
 	var allData stats
@@ -50,8 +47,8 @@ func example2B(days, households int) {
 		var dayData stats
 		for h := 0; h < households; h++ {
 			house := houseHold{
-				getWater: getWater,
-				faith:    faith,
+				truthPercent: truth,
+				faith:        faith,
 			}
 			signal := correct
 			if rand.Float64() > truth {
@@ -68,15 +65,13 @@ func example2B(days, households int) {
 			}
 			if choice == correct {
 				s.correctChoice = true
-				if rand.Float64() < getWater {
-					s.gotWater = true
-				}
+				s.gotWater = true
 			}
 			dayData.data = append(dayData.data, s)
 			allData.data = append(allData.data, s)
 		}
 		fmt.Printf("day %d\nCorrect: %.2f%%, First Choices [%s], Got Water %.2f%%\n",
-			d, dayData.Correct(), dayData.Choices()[:27], dayData.GotWater())
+			d+1, dayData.Correct(), dayData.Choices()[:27], dayData.GotWater())
 	}
 	fmt.Printf("All Data:\nCorrect: %.2f%%, Got Water %.2f%%\n",
 		allData.Correct(), allData.GotWater())

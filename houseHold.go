@@ -5,13 +5,14 @@ import (
 )
 
 type houseHold struct {
-	faith       float64
-	getWater    float64
-	wellAUitl   float64
-	wellBUtil   float64
-	wellCUtil   float64
-	choice      int
-	connections []*houseHold
+	faith        float64
+	truthPercent float64
+	wellAUitl    float64
+	wellBUtil    float64
+	wellCUtil    float64
+	choice       int
+	connections  []*houseHold
+	name         string
 }
 
 func (h houseHold) askFrineds() []int {
@@ -48,7 +49,7 @@ func (h houseHold) observerAndChoose(public []int) int {
 	if len(public) == 0 || len(public) == 1 {
 		return randWell([]int{wellA, wellB, wellC})
 	}
-	pA, pB, pC := bays(public, h.getWater)
+	pA, pB, pC := bays(public, h.truthPercent)
 
 	if pA > pB && pA > pC {
 		return wellA
@@ -62,7 +63,7 @@ func (h houseHold) observerAndChoose(public []int) int {
 func (h houseHold) utilityObserveAndChoose(public []int) int {
 	pA, pB, pC := wellCorrect, wellCorrect, wellCorrect
 	if len(public) != 0 && len(public) != 1 {
-		pA, pB, pC = bays(public, h.getWater)
+		pA, pB, pC = bays(public, h.truthPercent)
 	}
 
 	uA, uB, uC := h.wellAUitl*pA, h.wellBUtil*pB, h.wellCUtil*pC
@@ -98,7 +99,7 @@ func (hn *houseHoldNetwork) Next() bool {
 }
 
 func (hn *houseHoldNetwork) HouseHold() houseHold {
-	return hn.households[hn.index]
+	return hn.households[hn.order[hn.index]]
 }
 
 func (hn *houseHoldNetwork) Reset() {
