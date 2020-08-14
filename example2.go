@@ -39,7 +39,7 @@ func example2(days, households int) {
 
 func example2B(days, households int) {
 	truth := 0.9
-	faith := 0.95
+	faith := 0.9
 	var allData stats
 	for d := 0; d < days; d++ {
 		observations := []int{}

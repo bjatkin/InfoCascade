@@ -6,16 +6,17 @@ import (
 )
 
 func example4(days int, networkType int) {
-	waterGive := 0.9
+	truth := 0.9
+	faith := 0.9
 	network := oneCycle()
 	if networkType == twoCycleNetwork {
 		network = twoCycle()
 	}
 	if networkType == completeCycleNetwork {
-		network = twoCycle()
+		network = completeCycle()
 	}
 	if networkType == adHocNetwork {
-		network = completeCycle()
+		network = adHoc()
 	}
 
 	var allData stats
@@ -26,6 +27,7 @@ func example4(days int, networkType int) {
 		network.Reset()
 		for network.Next() {
 			h := network.HouseHold()
+			h.faith = faith
 			if h1 != "" && h2 != "" && h3 == "" {
 				h3 = h.name
 			}
@@ -35,24 +37,33 @@ func example4(days int, networkType int) {
 			if h1 == "" {
 				h1 = h.name
 			}
+			signal := correct
+			if rand.Float64() > truth {
+				signal = not(correct)
+			}
 
 			observe := h.askFrineds()
-			choice := h.observerAndChoose(observe)
+			choice := h.informedObserveAndChoose(signal, observe)
+			if h.name == h1 || h.name == h2 || h.name == h3 {
+				choice = correct
+				signal = correct
+			}
 			h.choice = choice
 			s := stat{
 				correctChoice: correct == choice,
 				gotWater:      false,
 				choice:        choice,
 			}
-			if s.correctChoice && rand.Float64() < waterGive {
+			if s.correctChoice {
 				s.gotWater = true
 			}
 			dayData.data = append(dayData.data, s)
 			allData.data = append(allData.data, s)
 		}
-		fmt.Printf("day %d\nCorrect: %.2f%%, First Choices [%s], First Household [%s, %s, %s], Got Water %.2f%%\n",
+		fmt.Printf("day %d\nCorrect: %.2f%%(%d), First Choices [%s], First Household [%s, %s, %s], Got Water %.2f%%\n",
 			d+1,
 			dayData.Correct(),
+			correct,
 			dayData.Choices()[:27],
 			h1, h2, h3,
 			dayData.GotWater())

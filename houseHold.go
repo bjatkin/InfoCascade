@@ -49,7 +49,7 @@ func (h houseHold) observerAndChoose(public []int) int {
 	if len(public) == 0 || len(public) == 1 {
 		return randWell([]int{wellA, wellB, wellC})
 	}
-	pA, pB, pC := bays(public, h.truthPercent)
+	pA, pB, pC := bays(public, h.faith)
 
 	if pA > pB && pA > pC {
 		return wellA

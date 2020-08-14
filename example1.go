@@ -20,7 +20,6 @@ func example1(days, households int) {
 
 			if rand.Float64() > truth {
 				signal = not(correct)
-				// fmt.Printf("Lied!\n")
 			}
 
 			choice := h.informedChoice(signal)

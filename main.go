@@ -38,22 +38,27 @@ func main() {
 		example3(days, households)
 		fmt.Printf("\n\n")
 	}
-	if ex == "4A" || ex == "all" {
+	if ex == "3b" || ex == "all" {
+		fmt.Printf("Example 3B\n")
+		example3B(days, households)
+		fmt.Printf("\n\n")
+	}
+	if ex == "4a" || ex == "all" {
 		fmt.Printf("Example 4A\n")
 		example4(days, oneCycleNetwork)
 		fmt.Printf("\n\n")
 	}
-	if ex == "4B" || ex == "all" {
+	if ex == "4b" || ex == "all" {
 		fmt.Printf("Example 4B\n")
 		example4(days, twoCycleNetwork)
 		fmt.Printf("\n\n")
 	}
-	if ex == "4C" || ex == "all" {
+	if ex == "4c" || ex == "all" {
 		fmt.Printf("Example 4C\n")
 		example4(days, completeCycleNetwork)
 		fmt.Printf("\n\n")
 	}
-	if ex == "4D" || ex == "all" {
+	if ex == "4d" || ex == "all" {
 		fmt.Printf("Example 4D\n")
 		example4(days, adHocNetwork)
 		fmt.Printf("\n\n")
